@@ -1,0 +1,21 @@
+{
+	auto_https disable_redirects
+}
+
+:80 :443
+
+tls internal {
+	on_demand
+}
+
+handle /v1/chat/completions* {
+  reverse_proxy https://api.openai.com {
+    header_up Host {upstream_hostport}
+  }
+}
+
+handle /v1/audio/transcriptions* {
+  reverse_proxy https://api.openai.com {
+    header_up Host {upstream_hostport}
+  }
+}
